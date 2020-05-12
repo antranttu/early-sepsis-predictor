@@ -62,24 +62,20 @@ This 6-hour sliding window is applied on each patient from the beginning of thei
 ![](/images/sliding_window3.png)
 
 **Tactics to deal with imbalance**
-
     * Using a reliable performance metric: When having a severely imbalanced class such as the problem at hand, using accuracy as the metric for model comparison is
     misleading. With 98% of total observations being non-sepsis patterns, if a model predicts every pattern to be non-sepsis, such model would achieve an accuracy
     of 98%. Therefore, this project uses F1 score as the primary metric for performance comparison among different models. F1 score is a number that gives an
     estimate of the balance that exists between precision and recall. Unlike other metrics, F1 score focuses on the performance of a classier on the
     positive (minority class) only. It describes how good a model is at predicting the positive class.
-
     * Threshold moving: The default probability threshold to classify an observation as the positive class is 0.5. In other words, if a predicted probability
     for the observation by the model is greater than or equal to 0.5, this observation is classified as the positive class. Changing this decision threshold
     is another approach to handle a severe class imbalance. This project aims to select a decision threshold that maximizes the F1 score.
     In this case, all thresholds between 0.0 and 1.0 with a step size of 0.01 are tested, that is, 0.01, 0.02, 0.03, and so on to 0.99.
     The optimal threshold that achieves the highest F1 score is selected for implementation.
-
     * Data resampling: Most machine learning classifiers fail to cope with imbalanced classes as they are sensitive to the proportions of the different classes.
     Consequently, these algorithms tend to favor the majority class, which may lead to misleading results. This is problematic when the minority class is the class
     of interest. Resampling a dataset so that the proportion of classes are balanced to some extent is another method to tackle class imbalance. This project utilizes
     under-sampling technique to conduct dataset resampling.
-
         * In some cases, seeking a balanced distribution for a severely imbalanced dataset can cause affected algorithms to overfit the minority class, leading to
         increased generalization error. As a result, the model can perform better on the training set, but worse on the test set as the test is not balanced.
         For this project, the ratio of majority class to minority class in the test dataset was kept at 98 to 2 (98:02) in order to reflect the real-world distribution.
@@ -98,7 +94,7 @@ Class Distribution | Logistic Regression | Decision Tree | Random Forest | XGBoo
 80:20 | 0.1 | 0.15 | 0.45 | 0.62
 90:10 | 0.1 | 0.2 | 0.49 | 0.72
 95:05 | 0.1 | 0.25 | 0.51 | 0.77
-98:02 | 0.1 | 0.31 | 0.56 | 0.81
+98:02 | 0.1 | 0.31 | 0.56 | **0.81**
 
 ## Code
 * `data_processing.ipynb`: concatenating hourly records of all patients into 1 dataframe. Fill in missing values using LOCF and NOCB.
