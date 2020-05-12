@@ -117,3 +117,12 @@ AUROC of 0.94, and no false positives on the test dataset.
 
 ![](/images/f1_comparison.png)
 ![](/images/multiple_roc_curve.png)
+
+## Web application
+Through the application of XGBoost with 22 features trained at 98:02 class distribution, a public website was created to predict sepsis using 6 hours of
+historical data. This tool can enable health care practitioners, institutions, and researchers, to monitor patients’ conditions, and alert the medical staff
+if a pattern is predicted to result in sepsis in the next 6 hours. The website contains a only small sample dataset from the original dataset of the challenge.
+The website is available at: https://sepsis699b.herokuapp.com/
+
+![](images/interface1.png)
+![](images/interface2.png)
