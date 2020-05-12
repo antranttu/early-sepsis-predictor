@@ -37,6 +37,7 @@ the main reason which results in the development of sepsis during a patient’s 
 ## Data Cleaning
 
 **Missing Value Imputation**
+
 For this project, the last observation carried forward (LOCF) and the next observation carried backward (NOCB) mechanisms are used to fill in missing values.
 LOCF and NOCB are two of the most popular methods in clinical trials, because they induce less bias to datasets compared to mean or median imputation.
 
@@ -47,6 +48,7 @@ available observation after the missing value and carrying it backward. LOCF and
 not filled to the subsequent patient in the dataset.
 
 **Feature Engineering**
+
 In this dataset, there is an absence of such variables that indicate how some vital signs would change within a specific time frame, which created the need
 to utilize the temporal effect of this dataset. Therefore, this project utilized a sliding window of 6 hours to extract patterns of features that would differentiate
 sepsis from non-sepsis events. It is important to note that after the feature engineering process, sepsis and non-sepsis events in this dataset are predicted
@@ -60,26 +62,29 @@ This 6-hour sliding window is applied on each patient from the beginning of thei
 ![](/images/sliding_window3.png)
 
 **Tactics to deal with imbalance**
+
     * Using a reliable performance metric: When having a severely imbalanced class such as the problem at hand, using accuracy as the metric for model comparison is
     misleading. With 98% of total observations being non-sepsis patterns, if a model predicts every pattern to be non-sepsis, such model would achieve an accuracy
     of 98%. Therefore, this project uses F1 score as the primary metric for performance comparison among different models. F1 score is a number that gives an
     estimate of the balance that exists between precision and recall. Unlike other metrics, F1 score focuses on the performance of a classier on the
     positive (minority class) only. It describes how good a model is at predicting the positive class.
+
     * Threshold moving: The default probability threshold to classify an observation as the positive class is 0.5. In other words, if a predicted probability
     for the observation by the model is greater than or equal to 0.5, this observation is classified as the positive class. Changing this decision threshold
     is another approach to handle a severe class imbalance. This project aims to select a decision threshold that maximizes the F1 score.
     In this case, all thresholds between 0.0 and 1.0 with a step size of 0.01 are tested, that is, 0.01, 0.02, 0.03, and so on to 0.99.
     The optimal threshold that achieves the highest F1 score is selected for implementation.
+
     * Data resampling: Most machine learning classifiers fail to cope with imbalanced classes as they are sensitive to the proportions of the different classes.
     Consequently, these algorithms tend to favor the majority class, which may lead to misleading results. This is problematic when the minority class is the class
     of interest. Resampling a dataset so that the proportion of classes are balanced to some extent is another method to tackle class imbalance. This project utilizes
     under-sampling technique to conduct dataset resampling.
 
-    In some cases, seeking a balanced distribution for a severely imbalanced dataset can cause affected algorithms to overfit the minority class, leading to
-    increased generalization error. As a result, the model can perform better on the training set, but worse on the test set as the test is not balanced.
-    For this project, the ratio of majority class to minority class in the test dataset was kept at 98 to 2 (98:02) in order to reflect the real-world distribution.
-    The training dataset, however, was resampled at different class distribution to evaluate which ratio would achieve the best performance on the test dataset.
-    The different majority to minority class distribution experimented on the training dataset were 50:50, 80:20, 90:10, 95:05, 98:02, respectively.
+        * In some cases, seeking a balanced distribution for a severely imbalanced dataset can cause affected algorithms to overfit the minority class, leading to
+        increased generalization error. As a result, the model can perform better on the training set, but worse on the test set as the test is not balanced.
+        For this project, the ratio of majority class to minority class in the test dataset was kept at 98 to 2 (98:02) in order to reflect the real-world distribution.
+        The training dataset, however, was resampled at different class distribution to evaluate which ratio would achieve the best performance on the test dataset.
+        The different majority to minority class distribution experimented on the training dataset were 50:50, 80:20, 90:10, 95:05, 98:02, respectively.
 
 ## Models
 Four algorithms are used to train different models, including Logistic Regression, Decision Tree, Random Forest, and Extreme Gradient Boosting (XGBoost). Each model is
@@ -110,5 +115,5 @@ All models were trained using a 10-fold cross-validation method that validated t
 XGBoost with feature selection trained at 98:02 class distribution outperformed other models with an F1 score of 0.81, Kappa of 0.69,
 AUROC of 0.94, and no false positives on the test dataset.
 
-![](/images/f1_comparison)
-![](/images/multiple_roc_curve)
+![](/images/f1_comparison.png)
+![](/images/multiple_roc_curve.png)
